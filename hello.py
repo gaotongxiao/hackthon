@@ -16,7 +16,23 @@ def handler(req):
 def checkType(data):
     if "expection" in data.keys():
         return getBestProduct(data)
-    return 999
+    elif "goodChoice" in data.keys():
+        if int(data["goodChoice"]) == 0:
+            return compareProducts(2)
+        else:
+            return chooseProduct(data)
+    elif "product" in data.keys():
+        if int(data["product"]) == 3:
+            return "I'm really sorry, see you again."
+        else:
+            return chooseProduct(data)
+    elif "Choice" in data.keys():
+        if int(data["Choice"]) == 1:
+            return getRisk()
+        else:
+            return getNews()
+            return "news"
+    return "Emmm... could you please say that again?"
 
 def riskCal(data):
     try:
@@ -51,7 +67,7 @@ def getBestProduct(data):
     temp = open("/var/www/html/altProducts", "w")
     temp.write(json.dumps([bestProduct]))
     temp.close()
-    ret = "Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;Category: ' + bestProduct['category'] + " Do you want to know more about this fund?"
+    ret = "Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;\r\nCategory: ' + bestProduct['category'] + "\r\n Do you want to know more about this fund?"
     return ret
 
 def sortFuncForStar(a, b):
@@ -85,36 +101,30 @@ def sortFuncForStar(a, b):
 def chooseProduct(data):
     altProducts = json.loads(open("/var/www/html/altProducts", "r").read())
     if int(data["product"]) > len(altProducts):
-        return 0
+        return "Invalid input!"
     temp = open("/var/www/html/currentProduct", "w")
-    temp.write(json.dumps(altProducts[int(data["product"])]))
+    temp.write(json.dumps(altProducts[int(data["product"]) - 1]))
     temp.close()
-    return 1
+    return "What do you want to know? 1. Potential risks 2. Relative news"
 
-def compareProducts(data):
+def compareProducts(num):
     sortedProducts = json.loads(open("/var/www/html/sortedProducts", "r").read())
-    num = int(data["num"])
     if num > len(sortedProducts):
         return -1
     altProducts = sortedProducts[0:num]
     temp = open("/var/www/html/altProducts", "w")
     temp.write(json.dumps(altProducts))
     temp.close()
-    res = []
-    res.append("Name:\t")
-    res.append("Category:\t")
-    res.append("3 Year Rate:\t")
-    res.append("Star:\t")
-    for i in range(num):
-        res[0] = res[0] + sortedProducts[i]['name'] + '\t'
-        res[1] = res[1] + sortedProducts[i]['category'] + '\t'
-        res[2] = res[2] + sortedProducts[i]['3YearRate'] + '\t'
-        res[3] = res[3] + sortedProducts[i]['star'] + '\t'
-    str = res[0] + '\r\n' + res[1] + '\r\n' + res[2] + '\r\n' + res[3]
-    return str
+    bestProduct = sortedProducts[0]
+    ret = "Check if you're interested in other products? 1. Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%; \r\nCategory: ' + bestProduct['category']
+    bestProduct = sortedProducts[1]
+    ret += '\r\n' + "2. Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;Category: ' + bestProduct['category']
+    ret += "\r\nYou may tell me your preference or just say goodbye."
+    return ret
 
 
 def getNews(keyWord="us entity"):
+    product = json.loads(open("/var/www/html/currentProduct", "r").read())
     queryWord= keyWord.split()
     queryString="https://www.bloomberg.com/search?query="
     count = 0 
@@ -134,3 +144,11 @@ def getNews(keyWord="us entity"):
         info =  "{links:\""+i[0]+"\",title:\""+i[1]+" "+i[2]+"\"}"
         newsList.append(info)
     return json.dumps(newsList)
+
+def getRisk():
+    product = json.loads(open("/var/www/html/currentProduct", "r").read())
+    risks = json.loads(open("/var/www/html/risk.json","r").read(), "utf-8")
+    dic = {}
+    for i in risks["fund"]:
+        dic.update(i)
+    return dic[product['category']]
