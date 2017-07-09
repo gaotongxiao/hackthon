@@ -16,6 +16,11 @@ def handler(req):
 def checkType(data):
     if "expection" in data.keys():
         return getBestProduct(data)
+    elif "Choice" in data.keys():
+        if int(data["Choice"]) == 1:
+            return getRisk()
+        else:
+            return getNews()
     elif "goodChoice" in data.keys():
         if int(data["goodChoice"]) == 0:
             return compareProducts(2)
@@ -26,12 +31,6 @@ def checkType(data):
             return "I'm really sorry, see you again."
         else:
             return chooseProduct(data)
-    elif "Choice" in data.keys():
-        if int(data["Choice"]) == 1:
-            return getRisk()
-        else:
-            return getNews()
-            return "news"
     return "Emmm... could you please say that again?"
 
 def riskCal(data):
@@ -67,7 +66,7 @@ def getBestProduct(data):
     temp = open("/var/www/html/altProducts", "w")
     temp.write(json.dumps([bestProduct]))
     temp.close()
-    ret = "Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;\r\nCategory: ' + bestProduct['category'] + "\r\n Do you want to know more about this fund?"
+    ret = "Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;\r\nCategory: ' + bestProduct['category'] + "\r\nDo you want to know more about this fund?"
     return ret
 
 def sortFuncForStar(a, b):
@@ -105,7 +104,7 @@ def chooseProduct(data):
     temp = open("/var/www/html/currentProduct", "w")
     temp.write(json.dumps(altProducts[int(data["product"]) - 1]))
     temp.close()
-    return "What do you want to know? 1. Potential risks 2. Relative news"
+    return "What do you want to know? 1. Potential risks 2. Related news"
 
 def compareProducts(num):
     sortedProducts = json.loads(open("/var/www/html/sortedProducts", "r").read())
@@ -118,13 +117,14 @@ def compareProducts(num):
     bestProduct = sortedProducts[0]
     ret = "Check if you're interested in other products? 1. Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%; \r\nCategory: ' + bestProduct['category']
     bestProduct = sortedProducts[1]
-    ret += '\r\n' + "2. Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;Category: ' + bestProduct['category']
+    ret += '\r\n' + "2. Name: " + bestProduct['name'] + '\r\nRisk level: ' + bestProduct['riskRate'] + ' - it matches your taste!\r\nAnnual return: ' + bestProduct['yearToDateRate'] + '%(year-to-date); ' + bestProduct['1YearRate'] + '%; ' + bestProduct['3YearRate'] + '%;\r\nCategory: ' + bestProduct['category']
     ret += "\r\nYou may tell me your preference or just say goodbye."
     return ret
 
 
 def getNews(keyWord="us entity"):
     product = json.loads(open("/var/www/html/currentProduct", "r").read())
+    keyWord = product["category"]
     queryWord= keyWord.split()
     queryString="https://www.bloomberg.com/search?query="
     count = 0 
@@ -139,11 +139,10 @@ def getNews(keyWord="us entity"):
     pattern = re.compile('<h1 class="search-result-story__headline">.*?href="(.*?)".*?<em>(.*?)</em>(.*?)</a>.*?</h1>', re.S)
     items = re.findall(pattern, res)
     newsList=[]
-
+    str = "Here are some related news:\r\n"
     for i in items:
-        info =  "{links:\""+i[0]+"\",title:\""+i[1]+" "+i[2]+"\"}"
-        newsList.append(info)
-    return json.dumps(newsList)
+        str += i[0] + ' ' + i[1] + ':' + i[0] + '\r\n'
+    return str
 
 def getRisk():
     product = json.loads(open("/var/www/html/currentProduct", "r").read())
