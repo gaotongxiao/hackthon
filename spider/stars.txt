@@ -1,0 +1,42 @@
+AIA MPF - PVC World
+3
+AIA MPF - PVC North American Equity
+4
+AIA MPF - PVC Manager's Choice
+1
+AIA MPF - PVC Hong Kong Equity
+2
+AIA MPF - PVC Hong Kong and China
+3
+AIA MPF - PVC Growth Portfolio
+3
+AIA MPF - PVC Green
+4
+AIA MPF - PVC Greater China Equity
+2
+AIA MPF - PVC Global Bond
+3
+AIA MPF - PVC Fidelity Stable Growth
+5
+AIA MPF - PVC Fidelity Growth
+4
+AIA MPF - PVC Fidelity Capital Stable
+3
+AIA MPF - PVC European Equity
+2
+AIA MPF - PVC Eurasia
+2
+AIA MPF - PVC Capital Stable Portfolio
+3
+AIA MPF - PVC Balanced Portfolio
+3
+AIA MPF - PVC Asian Equity
+2
+AIA MPF - PVC American
+1
+AIA MPF - PVC Allianz Stable Growth
+2
+AIA MPF - PVC Allianz Growth
+2
+AIA MPF - PVC Allianz Capital Stable
+2

@@ -1,0 +1,54 @@
+Growth Portfolio
+46.23
+Balanced Portfolio
+23.14
+Capital Stable Portfolio
+12.84
+Fidelity Growth Fund
+45.97
+Fidelity Stable Growth Fund
+29.08
+Fidelity Capital Stable Fund
+15.04
+Allianz Growth Fund
+33.33
+Allianz Stable Growth Fund
+16.81
+Allianz Capital Stable Fund
+8.43
+Manager&#39;s Choice Fund
+28.07
+Asian Equity Fund
+30.40
+European Equity Fund
+59.18
+Greater China Equity Fund
+35.02
+Green Fund
+62.71
+Hong Kong Equity Fund
+26.92
+Japan Equity Fund
+50.62
+North American Equity Fund
+79.54
+Guaranteed Portfolio
+2.56
+Asian Bond Fund
+2.57
+Global Bond Fund
+-0.95
+MPF Conservative Fund
+0.73
+American Fund
+58.47
+Eurasia Fund
+42.11
+Hong Kong and China Fund
+43.02
+World Fund
+48.72
+Core Accumulation Fund
+n/a
+Age 65 Plus Fund
+n/a

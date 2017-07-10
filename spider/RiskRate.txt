@@ -1,0 +1,56 @@
+Growth Portfolio
+4
+Balanced Portfolio
+3
+Capital Stable Portfolio
+2
+Fidelity Growth Fund
+4
+Fidelity Stable Growth Fund
+3
+Fidelity Capital Stable Fund
+2
+Allianz Growth Fund
+4
+Allianz Stable Growth Fund
+3
+Allianz Capital Stable Fund
+2
+China HK Dynamic Asset Allocation Fund 
+-
+Manager's Choice Fund
+4
+Asian Equity Fund
+5
+European Equity Fund
+5
+Greater China Equity Fund
+5
+Green Fund
+5
+Hong Kong Equity Fund
+5
+Japan Equity Fund
+5
+North American Equity Fund
+5
+Guaranteed Portfolio
+1
+Asian Bond Fund
+1
+Global Bond Fund
+1
+MPF Conservative Fund
+1
+American Fund
+5
+Eurasia Fund
+5
+Hong Kong and China Fund
+5
+World Fund
+5
+Core Accumulation Fund 
+Risk level medium to high 
+Age 65 Plus Fund
+Risk level low to medium
